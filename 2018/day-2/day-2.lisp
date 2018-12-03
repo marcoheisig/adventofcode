@@ -28,6 +28,10 @@
           (incf b))))
     (* a b)))
 
+(defun solve-exercise-1 ()
+  (checksum
+   (read-all-ids "input")))
+
 (defun similarity (string-1 string-2)
   (let ((mask (map 'list #'char= string-1 string-2)))
     (if (/= 1 (count nil mask))
@@ -50,3 +54,7 @@
          (when s
            (return s))))
      list-of-ids)))
+
+(defun solve-exercise-2 ()
+  (find-similarity
+   (read-all-ids "input")))

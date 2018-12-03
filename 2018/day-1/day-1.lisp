@@ -1,4 +1,7 @@
-(in-package :cl-user)
+(defpackage :adventofcode-2018-day-1
+  (:use :cl))
+
+(in-package :adventofcode-2018-day-1)
 
 (defun read-all (file)
   (with-open-file (stream file :direction :input)
@@ -20,3 +23,9 @@
              (incf frequency value)
              (when (gethash frequency duplicates)
                (return frequency)))))
+
+(defun solve-exercise-1 ()
+  (sum-file "input"))
+
+(defun solve-exercise-2 ()
+  (find-duplicate-frequency "input"))
