@@ -38,12 +38,6 @@
     (loop for entity being the hash-values of *entities*
           sum (n-orbits entity))))
 
-(defun solve-day-6-part-2 ()
-  (let ((*entities* (make-hash-table :test #'equal)))
-    (read-input "input")
-    (loop for entity being the hash-values of *entities*
-          sum (n-orbits entity))))
-
 (defun set-distances (start writer)
   (loop for entity = start then (entity-parent entity)
         for distance from 0
