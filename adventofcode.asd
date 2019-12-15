@@ -14,4 +14,6 @@
   ((:module "utilities"
     :components
     ((:file "packages")
-     (:file "initialize")))))
+     (:file "initialize")
+     (:file "grid")
+     (:file "mover")))))
