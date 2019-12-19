@@ -171,7 +171,7 @@
         (*grid* (aoc:make-grid :default (constantly 0))))
     (setf (aoc:grid-ref *grid* 0 0) 1)
     (run-robot *robot*)
-    (aoc:draw-grid
+    (aoc:print-grid
      *grid*
      (lambda (entry)
        (case entry

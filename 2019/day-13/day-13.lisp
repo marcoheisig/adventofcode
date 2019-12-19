@@ -17,8 +17,8 @@
 (defmacro screen-ref (screen x y)
   `(aoc:grid-ref (screen-grid ,screen) ,x ,y))
 
-(defun draw-screen (screen &optional (stream t))
-  (aoc:draw-grid
+(defun print-screen (screen &optional (stream t))
+  (aoc:print-grid
    (screen-grid screen)
    (lambda (id)
      (ecase id
@@ -127,7 +127,7 @@
 
 (define-instruction 3 input (dst)
   (print *score*)
-  (draw-screen *screen*)
+  (print-screen *screen*)
   (with-accessors ((ball-x screen-ball-x)
                    (paddle-x screen-paddle-x)) *screen*
     (cond ((< ball-x paddle-x) (setf dst -1))
