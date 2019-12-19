@@ -3,13 +3,15 @@
 ;;; Since so many AoC exercises work on 2D grids, I decided to factor out
 ;;; the grid code into a reusable module.
 
-(defstruct (grid (:constructor make-grid (&key table default))
+(defstruct (grid (:constructor make-grid)
                  (:predicate gridp)
                  (:copier nil))
   (table (make-hash-table :test #'equal) :type hash-table :read-only t)
   (default (constantly nil) :type function :read-only t))
 
 (defun grid-ref (grid x y)
+  (check-type x integer)
+  (check-type y integer)
   (let ((table (grid-table grid))
         (key (cons x y)))
     (multiple-value-bind (value present-p) (gethash key table)
@@ -19,15 +21,26 @@
                 (funcall (grid-default grid) x y))))))
 
 (defun (setf grid-ref) (value grid x y)
+  (check-type x integer)
+  (check-type y integer)
   (setf (gethash (cons x y) (grid-table grid)) value))
+
+(defun read-grid (stream x-y-char-fn &optional (default (constantly nil)))
+  (let ((grid (make-grid :default default)))
+    (loop for line = (read-line stream nil nil) for y from 0 while line do
+      (loop for char across line for x from 0 do
+        (setf (grid-ref grid x y)
+              (funcall x-y-char-fn x y char))))
+    grid))
 
 (defun copy-grid (grid copy-entry)
   (declare (grid grid))
-  (let ((new-grid (make-grid)))
+  (let ((new-grid (make-grid :default (grid-default grid))))
     (maphash
      (lambda (key entry)
        (destructuring-bind (x . y) key
-         (setf (grid-ref grid x y) (funcall copy-entry entry))))
+         (setf (grid-ref new-grid x y)
+               (funcall copy-entry entry))))
      (grid-table grid))
     new-grid))
 
@@ -41,21 +54,25 @@
       (setf max-y (max y max-y)))
     (values min-x max-x min-y max-y)))
 
-(defun draw-grid (grid element-char &optional (stream t))
+(defun print-grid (grid element-char &optional (stream t))
   (multiple-value-bind (min-x max-x min-y max-y) (grid-bounding-box grid)
     (fresh-line stream)
-    (loop for y from max-y downto min-y do
+    (loop for y from min-y to max-y do
       (loop for x from min-x to max-x do
         (write-char (funcall element-char (grid-ref grid x y)) stream))
       (terpri stream))
     (finish-output stream)))
 
 (defun map-sparse-grid (function grid)
-  (maphash
-   (lambda (key entry)
-     (destructuring-bind (x . y) key
-       (funcall function x y entry)))
-   (grid-table grid)))
+  ;; The behavior of MAPHASH is undefined once we mutate entries apart from
+  ;; the current one, so we create a temporary copy of all entries first.
+  (let ((entries '()))
+    (maphash
+     (lambda (key entry)
+       (push (cons key entry) entries))
+     (grid-table grid))
+    (loop for ((x . y) . entry) in entries do
+      (funcall function x y entry))))
 
 (defun map-dense-grid (function grid)
   (multiple-value-bind (min-x max-x min-y max-y) (grid-bounding-box grid)

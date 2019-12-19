@@ -4,10 +4,8 @@
 
 (deftype direction () '(member #\^ #\> #\v #\<))
 
-(defclass mover ()
-  ((%direction :initarg :direction :type direction :accessor direction)
-   (%x :initarg :x :type integer :accessor x)
-   (%y :initarg :y :type integer :accessor y)))
+(defclass mover (position-mixin)
+  ((%direction :initarg :direction :type direction :accessor direction)))
 
 (defgeneric moverp (object)
   (:method ((object t)) nil)

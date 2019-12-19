@@ -15,5 +15,6 @@
     :components
     ((:file "packages")
      (:file "initialize")
+     (:file "position-mixin")
      (:file "grid")
      (:file "mover")))))

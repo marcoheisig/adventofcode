@@ -10,17 +10,20 @@
    #:gridp
    #:make-grid
    #:grid-ref
+   #:read-grid
    #:copy-grid
    #:grid-bounding-box
-   #:draw-grid
+   #:print-grid
    #:map-sparse-grid
    #:map-dense-grid
+
+   #:position-mixin
+   #:x
+   #:y
 
    #:mover
    #:moverp
    #:direction
-   #:x
-   #:y
    #:move
    #:rotate-clockwise
    #:rotate-counterclockwise))
