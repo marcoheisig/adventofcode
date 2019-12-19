@@ -12,6 +12,7 @@
    #:grid-ref
    #:read-grid
    #:copy-grid
+   #:filter-grid
    #:grid-bounding-box
    #:print-grid
    #:map-sparse-grid

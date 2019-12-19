@@ -85,3 +85,12 @@
     (loop for y from min-y to max-y do
       (loop for x from min-x to max-x do
         (funcall function x y (grid-ref grid x y))))))
+
+(defun filter-grid (grid predicate)
+  (let ((matching '()))
+    (map-sparse-grid
+     (lambda (x y tile)
+       (when (funcall predicate x y tile)
+         (push tile matching)))
+     grid)
+    matching))
