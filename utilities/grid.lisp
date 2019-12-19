@@ -54,13 +54,19 @@
       (setf max-y (max y max-y)))
     (values min-x max-x min-y max-y)))
 
-(defun print-grid (grid element-char &optional (stream t))
+(defun print-grid (grid element-char &key (stream t) (origin :top-left))
   (multiple-value-bind (min-x max-x min-y max-y) (grid-bounding-box grid)
     (fresh-line stream)
-    (loop for y from min-y to max-y do
-      (loop for x from min-x to max-x do
-        (write-char (funcall element-char (grid-ref grid x y)) stream))
-      (terpri stream))
+    (macrolet ((printer (beg-x dir-x end-x beg-y dir-y end-y)
+                 `(loop for y from ,beg-y ,dir-y ,end-y do
+                   (loop for x from ,beg-x ,dir-x ,end-x do
+                     (write-char (funcall element-char (grid-ref grid x y)) stream))
+                   (terpri stream))))
+      (ecase origin
+        (:top-left (printer min-x to max-x min-y to max-y))
+        (:top-right (printer max-x downto min-x min-y to max-y))
+        (:bottom-left (printer min-x to max-x max-y downto min-y))
+        (:bottom-right (printer max-x downto min-x max-y downto min-y))))
     (finish-output stream)))
 
 (defun map-sparse-grid (function grid)
