@@ -27,7 +27,7 @@
        (2 #\X)
        (3 #\-)
        (4 #\o)))
-   stream))
+   :stream stream))
 
 ;;; The intcode computer.
 
