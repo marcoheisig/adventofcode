@@ -94,3 +94,7 @@
          (push tile matching)))
      grid)
     matching))
+
+(defun grid-center (grid)
+  (multiple-value-bind (min-x max-x min-y max-y) (grid-bounding-box grid)
+    (values (floor (- max-x min-x) 2) (floor (- max-y min-y) 2))))

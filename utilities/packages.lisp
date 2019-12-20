@@ -14,6 +14,7 @@
    #:copy-grid
    #:filter-grid
    #:grid-bounding-box
+   #:grid-center
    #:print-grid
    #:map-sparse-grid
    #:map-dense-grid
