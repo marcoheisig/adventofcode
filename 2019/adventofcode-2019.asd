@@ -1,11 +1,16 @@
 
 (defsystem :adventofcode-2019
   :depends-on
-  ("adventofcode")
+  ("adventofcode"
+   "split-sequence"
+   "alexandria"
+   "bordeaux-threads"
+   "lparallel")
   :serial
   t
   :components
-  ((:module "day-01" :components ((:file "day-01")))
+  ((:file "intcode-computer")
+   (:module "day-01" :components ((:file "day-01")))
    (:module "day-02" :components ((:file "day-02")))
    (:module "day-03" :components ((:file "day-03")))
    (:module "day-04" :components ((:file "day-04")))
