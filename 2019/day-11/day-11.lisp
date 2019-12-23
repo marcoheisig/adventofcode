@@ -114,8 +114,8 @@
        (setf mode :move))
       (:move
        (ecase src
-         (0 (aoc:rotate-counterclockwise *robot*))
-         (1 (aoc:rotate-clockwise *robot*)))
+         (0 (aoc:rotate-left *robot*))
+         (1 (aoc:rotate-right *robot*)))
        (aoc:move *robot* 1)
        (setf mode :paint)))))
 

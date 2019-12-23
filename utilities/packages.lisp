@@ -27,6 +27,9 @@
    #:moverp
    #:direction
    #:move
-   #:rotate-clockwise
-   #:rotate-counterclockwise))
+   #:peek-forward
+   #:peek-left
+   #:peek-right
+   #:rotate-right
+   #:rotate-left))
 
